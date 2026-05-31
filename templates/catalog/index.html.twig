@@ -32,8 +32,16 @@
                 <p><strong>Precio:</strong> {{ flor.price }} €</p>
                 <p><strong>Stock:</strong> {{ flor.stock }} ud.</p>
 
+                {# --- AQUÍ VA EL NUEVO BOTÓN DEL CARRITO --- #}
+                <div style="margin-top: 15px; margin-bottom: 15px;">
+                    <a href="{{ path('app_cart_add', {'id': flor.id}) }}" style="background-color: #3498db; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; font-size: 14px; display: inline-block;">
+                        🛒 Añadir al carrito
+                    </a>
+                </div>
+                {# ------------------------------------------ #}
+
                 {% if is_granted('ROLE_ADMIN') %}
-                    <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+                    <div style="border-top: 1px solid #eee; padding-top: 10px;">
                         
                         {# 2. El botón ahora lanza nuestra función de JS #}
                         <button onclick="borrarFlor(event, {{ flor.id }})" style="background-color: #e74c3c; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 3px; font-size: 14px;">
