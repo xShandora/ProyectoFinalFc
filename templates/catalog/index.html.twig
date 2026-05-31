@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catálogo de Flores{% endblock %}
+
+{% block body %}
+    <h1>Catálogo de Flores</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div style="margin-bottom: 20px;">
+            <a href="{{ path('app_admin') }}" style="background-color: #27ae60; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
+                + Añadir nueva flor
+            </a>
+        </div>
+    {% endif %}
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        {% for flor in flores %}
+            
+            {# 1. Le ponemos una ID única a la caja entera de esta flor #}
+            <div id="flor-{{ flor.id }}" style="border: 1px solid #ccc; padding: 15px; width: 250px; border-radius: 8px; transition: 0.3s;">
+                
+                {% if flor.image %}
+                    <img src="/uploads/flowers/{{ flor.image }}" alt="{{ flor.name }}" style="max-width: 100%; height: auto; border-radius: 5px;">
+                {% endif %}
+
+                <h2>
+                    <a href="{{ path('app_catalog_detail', {'id': flor.id}) }}" style="text-decoration: none; color: #2c3e50;">
+                        {{ flor.name }}
+                    </a>
+                </h2>
+                <p>{{ flor.description }}</p>
+                <p><strong>Precio:</strong> {{ flor.price }} €</p>
+                <p><strong>Stock:</strong> {{ flor.stock }} ud.</p>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+                        
+                        {# 2. El botón ahora lanza nuestra función de JS #}
+                        <button onclick="borrarFlor(event, {{ flor.id }})" style="background-color: #e74c3c; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 3px; font-size: 14px;">
+                            ❌ Borrar Flor
+                        </button>
+
+                    </div>
+                {% endif %}
+                
+            </div>
+        {% else %}
+            <p>No hay flores en el catálogo en este momento.</p>
+        {% endfor %}
+    </div>
+
+    <script>
+        function borrarFlor(event, id) {
+            event.preventDefault(); 
+            
+            // Un pequeño aviso de seguridad por si le das sin querer
+            if (confirm('¿Seguro que quieres borrar esta flor definitivamente?')) {
+                
+                // Vamos "por detrás" a la ruta de tu controlador
+                fetch('/admin/flor/borrar/' + id, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json()) // Leemos la respuesta de Symfony
+                .then(data => {
+                    if (data.success) {
+                        // Si Symfony dice OK, destruimos la caja de la flor en tiempo real
+                        document.getElementById('flor-' + id).remove();
+                    } else {
+                        alert('Hubo un error al borrar la flor.');
+                    }
+                });
+            }
+        }
+    </script>
+{% endblock %}

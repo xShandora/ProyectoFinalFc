@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panel de Administración{% endblock %}
+
+{% block body %}
+    <h1>Panel de Administración</h1>
+    <h2>Añadir una nueva flor al catálogo</h2>
+
+    {# Aquí empieza la magia de los formularios de Symfony #}
+    {{ form_start(formulario) }}
+        
+        {# form_widget pinta automáticamente todos los <input> que definimos (nombre, precio, etc.) #}
+        {{ form_widget(formulario) }}
+        
+        <button type="submit">Guardar Flor</button>
+        
+    {{ form_end(formulario) }}
+{% endblock %}
