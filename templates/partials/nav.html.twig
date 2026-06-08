@@ -1,0 +1,33 @@
+<nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            
+            <div class="flex items-center">
+                <a href="{{ path('app_catalog') }}" class="flex-shrink-0 flex items-center gap-3">
+                    <span class="text-3xl">🌸</span>
+                    {# Aplicamos tu color rosa y la tipografía Great Vibes #}
+                    <span class="text-4xl font-normal tracking-wide" style="color: #FF6F94; font-family: 'Great Vibes', cursive;">
+                        Lycoris Radiata
+                    </span>
+                </a>
+            </div>
+
+            <div class="flex items-center space-x-6">
+                
+                <a href="{{ path('app_catalog') }}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors" style="hover:color: #B6DA8F;">
+                    Catálogo
+                </a>
+                
+                <a href="{{ path('app_cart_index') }}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors flex items-center gap-1">
+                    <span>🛒</span>
+                    <span>Carrito</span>
+                </a>
+
+                <a href="{{ path('app_login') }}" class="text-slate-800 px-4 py-2 rounded-md font-medium transition-colors shadow-sm" style="background-color: #B6DA8F; hover:opacity: 0.9;">
+                    Entrar
+                </a>
+            </div>
+
+        </div>
+    </div>
+</nav>

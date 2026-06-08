@@ -15,8 +15,6 @@
 
     <div style="display: flex; flex-wrap: wrap; gap: 20px;">
         {% for flor in flores %}
-            
-            {# 1. Le ponemos una ID única a la caja entera de esta flor #}
             <div id="flor-{{ flor.id }}" style="border: 1px solid #ccc; padding: 15px; width: 250px; border-radius: 8px; transition: 0.3s;">
                 
                 {% if flor.image %}
@@ -32,18 +30,15 @@
                 <p><strong>Precio:</strong> {{ flor.price }} €</p>
                 <p><strong>Stock:</strong> {{ flor.stock }} ud.</p>
 
-                {# --- AQUÍ VA EL NUEVO BOTÓN DEL CARRITO --- #}
                 <div style="margin-top: 15px; margin-bottom: 15px;">
                     <a href="{{ path('app_cart_add', {'id': flor.id}) }}" style="background-color: #3498db; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; font-size: 14px; display: inline-block;">
                         🛒 Añadir al carrito
                     </a>
                 </div>
-                {# ------------------------------------------ #}
 
                 {% if is_granted('ROLE_ADMIN') %}
                     <div style="border-top: 1px solid #eee; padding-top: 10px;">
                         
-                        {# 2. El botón ahora lanza nuestra función de JS #}
                         <button onclick="borrarFlor(event, {{ flor.id }})" style="background-color: #e74c3c; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 3px; font-size: 14px;">
                             ❌ Borrar Flor
                         </button>
@@ -61,17 +56,14 @@
         function borrarFlor(event, id) {
             event.preventDefault(); 
             
-            // Un pequeño aviso de seguridad por si le das sin querer
             if (confirm('¿Seguro que quieres borrar esta flor definitivamente?')) {
                 
-                // Vamos "por detrás" a la ruta de tu controlador
                 fetch('/admin/flor/borrar/' + id, {
                     method: 'DELETE'
                 })
                 .then(response => response.json()) // Leemos la respuesta de Symfony
                 .then(data => {
                     if (data.success) {
-                        // Si Symfony dice OK, destruimos la caja de la flor en tiempo real
                         document.getElementById('flor-' + id).remove();
                     } else {
                         alert('Hubo un error al borrar la flor.');
