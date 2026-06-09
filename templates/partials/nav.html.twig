@@ -23,9 +23,17 @@
                     <span>Carrito</span>
                 </a>
 
-                <a href="{{ path('app_login') }}" class="text-slate-800 px-4 py-2 rounded-md font-medium transition-colors shadow-sm" style="background-color: #B6DA8F; hover:opacity: 0.9;">
-                    Entrar
-                </a>
+                {# Condición mágica: Si el usuario está logueado, muestra Cerrar sesión #}
+                {% if app.user %}
+                    <a href="{{ path('app_logout') }}" class="text-slate-800 px-4 py-2 rounded-md font-medium transition-colors shadow-sm" style="background-color: #B6DA8F; hover:opacity: 0.9;">
+                        Cerrar sesión
+                    </a>
+                {# Si no hay nadie logueado (visitante), muestra el botón de Entrar #}
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="text-slate-800 px-4 py-2 rounded-md font-medium transition-colors shadow-sm" style="background-color: #B6DA8F; hover:opacity: 0.9;">
+                        Entrar
+                    </a>
+                {% endif %}
             </div>
 
         </div>
