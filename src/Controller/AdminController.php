@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 #[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
-    // --- 1. RUTA PARA AÑADIR FLORES (El formulario) ---
     #[Route('/admin', name: 'app_admin')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -50,7 +49,6 @@ class AdminController extends AbstractController
         ]);
     }
 
-    // --- 2. RUTA PARA BORRAR FLORES (La que usa el JavaScript) ---
     #[Route('/admin/flor/borrar/{id}', name: 'app_admin_flower_delete', methods: ['DELETE'])]
     public function delete(int $id, \App\Repository\FlowerRepository $flowerRepository, EntityManagerInterface $entityManager): JsonResponse
     {

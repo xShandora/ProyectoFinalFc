@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Configuración - Lycoris Radiata{% endblock %}
+
+{% block body %}
+<div class="max-w-6xl mx-auto px-4 md:px-6 mt-8 mb-16">
+
+    <h1 class="text-4xl tracking-wide text-gray-800 mb-8" style="font-family: 'Great Vibes', cursive;">Mi Cuenta</h1>
+
+    <div class="flex flex-col md:flex-row gap-8">
+        <aside class="w-full md:w-1/4">
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 sticky top-8">
+                
+                <div class="flex flex-col items-center mb-6 pb-6 border-b border-gray-100">
+                    <div class="w-20 h-20 bg-[#FF6F94] text-white rounded-full flex items-center justify-center text-4xl font-bold shadow-sm mb-3">
+                        {{ app.user.email|first|upper }}
+                    </div>
+                    <p class="text-gray-500 text-sm font-medium break-all text-center">{{ app.user.email }}</p>
+                </div>
+
+                <nav class="flex flex-col gap-2">
+                    {# Ahora "Mis Pedidos" pasa a estar inactivo #}
+                    <a href="{{ path('app_profile') }}" class="px-4 py-3 rounded-xl text-gray-500 hover:bg-gray-50 hover:text-gray-800 font-medium flex items-center gap-3 transition-colors">
+                        <span>📦</span> Mis Pedidos
+                    </a>
+                    
+                    <a href="{{ path('app_profile_settings') }}" class="px-4 py-3 rounded-xl bg-[#FF6F94]/10 text-[#FF6F94] font-bold flex items-center gap-3 transition-colors">
+                        <span>⚙️</span> Configuración
+                    </a>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="my-2 border-t border-gray-100"></div>
+                        <a href="#" class="px-4 py-3 rounded-xl text-purple-600 hover:bg-purple-50 font-medium flex items-center gap-3 transition-colors">
+                            <span>👑</span> Gestión Admin
+                        </a>
+                    {% endif %}
+                </nav>
+
+                <div class="mt-8 pt-6 border-t border-gray-100">
+                    <a href="{{ path('app_logout') }}" class="text-red-500 hover:text-red-600 text-sm font-medium flex items-center gap-2 transition-colors">
+                        <span>🚪</span> Cerrar Sesión
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="w-full md:w-3/4">
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-4">Ajustes de la Cuenta</h2>
+
+                <div class="space-y-6 max-w-xl">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-400 mb-2">Correo Electrónico</label>
+                        <div class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-500 select-none">
+                            {{ user.email }}
+                        </div>
+                        <p class="text-xs text-gray-400 mt-2">El correo electrónico no se puede modificar por motivos de seguridad.</p>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Seguridad</h3>
+                        <p class="text-gray-500 text-sm mb-4">¿Quieres actualizar tu contraseña de acceso?</p>
+                        
+                        <button class="px-5 py-2.5 bg-gray-800 text-white font-medium text-sm rounded-xl hover:bg-gray-700 transition-colors">
+                            Cambiar contraseña
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+</div>
+{% endblock %}

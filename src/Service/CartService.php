@@ -84,5 +84,16 @@ class CartService
         return $carritoCompleto;
     }
 
+    public function getTotal(): float
+    {
+        $total = 0;
+
+        foreach ($this->getFullCart() as $item) {
+            $total += $item['flor']->getPrice() * $item['cantidad'];
+        }
+
+        return $total;
+    }
+
 
 }

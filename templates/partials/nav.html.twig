@@ -13,31 +13,42 @@
 
             <div class="flex items-center gap-2 sm:gap-4">
                 
-                {# Enlaces de Escritorio (Ocultos en móvil) #}
                 <div class="hidden md:flex items-center space-x-6 mr-2">
-                    <a href="{{ path('app_catalog') }}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors" style="hover:color: #B6DA8F;">
+                    <a href="{{ path('app_catalog') }}" class="text-gray-600 hover:text-[#FF6F94] font-medium transition-colors">
                         Catálogo
                     </a>
                     
-                    <a href="{{ path('app_cart_index') }}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors flex items-center gap-1">
+                    <a href="{{ path('app_cart_index') }}" class="text-gray-600 hover:text-[#FF6F94] font-medium transition-colors flex items-center gap-1">
                         <span>🛒</span>
                         <span>Carrito</span>
                     </a>
                 </div>
 
-                {% if app.user %}
-                    <a href="{{ path('app_logout') }}" class="text-slate-800 px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base rounded-md font-medium transition-colors shadow-sm whitespace-nowrap" style="background-color: #B6DA8F; hover:opacity: 0.9;">
-                        <span class="md:hidden">Salir</span>
-                        <span class="hidden md:inline">Cerrar sesión</span>
-                    </a>
-                {% else %}
-                    <a href="{{ path('app_login') }}" class="text-slate-800 px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base rounded-md font-medium transition-colors shadow-sm whitespace-nowrap" style="background-color: #B6DA8F; hover:opacity: 0.9;">
-                        Entrar
-                    </a>
-                {% endif %}
+                <div class="hidden md:flex items-center">
+                    {% if app.user %}
+                        <div class="relative group">
+                            <button class="flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors focus:outline-none py-2">
+                                <span class="bg-gray-50 border border-gray-100 rounded-full p-1.5 text-lg leading-none">👤</span>
+                                <span>{{ app.user.nombre|default('Mi Perfil') }}</span>
+                                <svg class="w-4 h-4 text-gray-400 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+
+                            <div class="absolute right-0 mt-0 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right translate-y-2 group-hover:translate-y-0">
+                                <a href="{{ path('app_profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#FF6F94] transition-colors">👤 Mi Perfil</a>
+                                <a href="{{ path('app_profile_settings') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#FF6F94] transition-colors">⚙️ Configuración</a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">🚪 Cerrar sesión</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="text-slate-800 px-4 py-2 text-sm md:text-base rounded-md font-bold transition-transform transform hover:-translate-y-0.5 shadow-sm whitespace-nowrap" style="background-color: #B6DA8F;">
+                            Entrar
+                        </a>
+                    {% endif %}
+                </div>
 
                 <div class="flex md:hidden items-center">
-                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-gray-600 hover:text-gray-900 focus:outline-none p-1">
+                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-gray-600 hover:text-[#FF6F94] focus:outline-none p-1">
                         <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
@@ -49,12 +60,27 @@
     </div>
 
     <div id="mobile-menu" class="hidden md:hidden absolute w-full bg-white shadow-lg border-t border-gray-100">
-        <div class="px-4 py-4 space-y-2">
+        <div class="px-4 py-4 space-y-1">
             <a href="{{ path('app_catalog') }}" class="block text-gray-800 font-medium py-3 border-b border-gray-50">Catálogo</a>
             
-            <a href="{{ path('app_cart_index') }}" class="block text-gray-800 font-medium py-3 flex items-center gap-2">
+            <a href="{{ path('app_cart_index') }}" class="block text-gray-800 font-medium py-3 border-b border-gray-50 flex items-center gap-2">
                 <span>🛒</span> Carrito
             </a>
+
+            {% if app.user %}
+                <div class="pt-4 pb-2">
+                    <p class="text-xs text-gray-400 uppercase tracking-wider font-bold mb-2">Mi Cuenta</p>
+                    <a href="{{ path('app_profile') }}" class="block text-gray-800 font-medium py-2 hover:text-[#FF6F94]">👤 Mi Perfil</a>
+                    <a href="{{ path('app_profile_settings') }}" class="block text-gray-800 font-medium py-2 hover:text-[#FF6F94]">⚙️ Configuración</a>
+                    <a href="{{ path('app_logout') }}" class="block text-red-600 font-medium py-2 mt-2">🚪 Cerrar sesión</a>
+                </div>
+            {% else %}
+                <div class="pt-4">
+                    <a href="{{ path('app_login') }}" class="block w-full text-center text-slate-800 font-bold py-3 rounded-xl shadow-sm" style="background-color: #B6DA8F;">
+                        Entrar
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </nav>
