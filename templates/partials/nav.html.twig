@@ -1,41 +1,60 @@
-<nav class="bg-white shadow-md">
+<nav class="bg-white shadow-md relative z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between items-center h-16">
             
-            <div class="flex items-center">
-                <a href="{{ path('app_catalog') }}" class="flex-shrink-0 flex items-center gap-3">
-                    <span class="text-3xl">🌸</span>
-                    {# Aplicamos tu color rosa y la tipografía Great Vibes #}
-                    <span class="text-4xl font-normal tracking-wide" style="color: #FF6F94; font-family: 'Great Vibes', cursive;">
+            <div class="flex items-center truncate mr-2">
+                <a href="{{ path('app_catalog') }}" class="flex-shrink-0 flex items-center gap-2 sm:gap-3">
+                    <span class="text-2xl sm:text-3xl">🌸</span>
+                    <span class="text-3xl sm:text-4xl font-normal tracking-wide truncate" style="color: #FF6F94; font-family: 'Great Vibes', cursive;">
                         Lycoris Radiata
                     </span>
                 </a>
             </div>
 
-            <div class="flex items-center space-x-6">
+            <div class="flex items-center gap-2 sm:gap-4">
                 
-                <a href="{{ path('app_catalog') }}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors" style="hover:color: #B6DA8F;">
-                    Catálogo
-                </a>
-                
-                <a href="{{ path('app_cart_index') }}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors flex items-center gap-1">
-                    <span>🛒</span>
-                    <span>Carrito</span>
-                </a>
-
-                {# Condición mágica: Si el usuario está logueado, muestra Cerrar sesión #}
-                {% if app.user %}
-                    <a href="{{ path('app_logout') }}" class="text-slate-800 px-4 py-2 rounded-md font-medium transition-colors shadow-sm" style="background-color: #B6DA8F; hover:opacity: 0.9;">
-                        Cerrar sesión
+                {# Enlaces de Escritorio (Ocultos en móvil) #}
+                <div class="hidden md:flex items-center space-x-6 mr-2">
+                    <a href="{{ path('app_catalog') }}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors" style="hover:color: #B6DA8F;">
+                        Catálogo
                     </a>
-                {# Si no hay nadie logueado (visitante), muestra el botón de Entrar #}
+                    
+                    <a href="{{ path('app_cart_index') }}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors flex items-center gap-1">
+                        <span>🛒</span>
+                        <span>Carrito</span>
+                    </a>
+                </div>
+
+                {% if app.user %}
+                    <a href="{{ path('app_logout') }}" class="text-slate-800 px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base rounded-md font-medium transition-colors shadow-sm whitespace-nowrap" style="background-color: #B6DA8F; hover:opacity: 0.9;">
+                        <span class="md:hidden">Salir</span>
+                        <span class="hidden md:inline">Cerrar sesión</span>
+                    </a>
                 {% else %}
-                    <a href="{{ path('app_login') }}" class="text-slate-800 px-4 py-2 rounded-md font-medium transition-colors shadow-sm" style="background-color: #B6DA8F; hover:opacity: 0.9;">
+                    <a href="{{ path('app_login') }}" class="text-slate-800 px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base rounded-md font-medium transition-colors shadow-sm whitespace-nowrap" style="background-color: #B6DA8F; hover:opacity: 0.9;">
                         Entrar
                     </a>
                 {% endif %}
+
+                <div class="flex md:hidden items-center">
+                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-gray-600 hover:text-gray-900 focus:outline-none p-1">
+                        <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden absolute w-full bg-white shadow-lg border-t border-gray-100">
+        <div class="px-4 py-4 space-y-2">
+            <a href="{{ path('app_catalog') }}" class="block text-gray-800 font-medium py-3 border-b border-gray-50">Catálogo</a>
+            
+            <a href="{{ path('app_cart_index') }}" class="block text-gray-800 font-medium py-3 flex items-center gap-2">
+                <span>🛒</span> Carrito
+            </a>
         </div>
     </div>
 </nav>

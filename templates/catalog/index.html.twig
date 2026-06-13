@@ -1,75 +1,153 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Catálogo de Flores{% endblock %}
+{% block title %}Catálogo - Lycoris Radiata{% endblock %}
 
 {% block body %}
-    <h1>Catálogo de Flores</h1>
-
-    {% if is_granted('ROLE_ADMIN') %}
-        <div style="margin-bottom: 20px;">
-            <a href="{{ path('app_admin') }}" style="background-color: #27ae60; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
-                + Añadir nueva flor
-            </a>
+<div class="flex flex-col lg:flex-row gap-8 items-start relative">
+    
+    <div class="w-full lg:w-3/4">
+        
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+            <h1 class="text-4xl tracking-wide" style="color: #FF6F94; font-family: 'Great Vibes', cursive;">Catálogo de Flores</h1>
+            
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_admin') }}" class="px-5 py-2.5 rounded-lg text-slate-800 font-bold text-sm shadow-sm transition-transform transform hover:-translate-y-0.5 flex items-center gap-2" style="background-color: #B6DA8F;">
+                    <span>➕</span> Añadir nueva flor
+                </a>
+            {% endif %}
         </div>
-    {% endif %}
 
-    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-        {% for flor in flores %}
-            <div id="flor-{{ flor.id }}" style="border: 1px solid #ccc; padding: 15px; width: 250px; border-radius: 8px; transition: 0.3s;">
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            {% for flor in flores %}
                 
-                {% if flor.image %}
-                    <img src="/uploads/flowers/{{ flor.image }}" alt="{{ flor.name }}" style="max-width: 100%; height: auto; border-radius: 5px;">
-                {% endif %}
-
-                <h2>
-                    <a href="{{ path('app_catalog_detail', {'id': flor.id}) }}" style="text-decoration: none; color: #2c3e50;">
-                        {{ flor.name }}
-                    </a>
-                </h2>
-                <p>{{ flor.description }}</p>
-                <p><strong>Precio:</strong> {{ flor.price }} €</p>
-                <p><strong>Stock:</strong> {{ flor.stock }} ud.</p>
-
-                <div style="margin-top: 15px; margin-bottom: 15px;">
-                    <a href="{{ path('app_cart_add', {'id': flor.id}) }}" style="background-color: #3498db; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; font-size: 14px; display: inline-block;">
-                        🛒 Añadir al carrito
-                    </a>
-                </div>
-
-                {% if is_granted('ROLE_ADMIN') %}
-                    <div style="border-top: 1px solid #eee; padding-top: 10px;">
+                <div id="flor-{{ flor.id }}" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col group">
+                    
+                    <a href="{{ path('app_catalog_detail', {'id': flor.id}) }}" class="block relative h-56 overflow-hidden bg-gray-50">
+                        {% if flor.image %}
+                            <img src="/uploads/flowers/{{ flor.image }}" alt="{{ flor.name }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        {% else %}
+                            <div class="w-full h-full flex items-center justify-center text-gray-300">
+                                <span class="text-4xl">🌸</span>
+                            </div>
+                        {% endif %}
                         
-                        <button onclick="borrarFlor(event, {{ flor.id }})" style="background-color: #e74c3c; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 3px; font-size: 14px;">
-                            ❌ Borrar Flor
-                        </button>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-gray-600 shadow-sm">
+                                Stock: {{ flor.stock }}
+                            </div>
+                        {% endif %}
+                    </a>
 
+                    <div class="p-5 flex flex-col flex-1 justify-between">
+                        
+                        <div>
+                            <a href="{{ path('app_catalog_detail', {'id': flor.id}) }}" class="hover:opacity-75 transition-opacity">
+                                <h2 class="text-xl font-bold text-gray-800 mb-2 truncate">{{ flor.name }}</h2>
+                            </a>
+                            
+                            <div class="text-2xl font-bold text-gray-900 mb-4">
+                                {{ flor.price|number_format(2, ',', '.') }} €
+                            </div>
+                        </div>
+
+                        <div>
+                            <a href="{{ path('app_cart_add', {'id': flor.id}) }}" class="w-full block text-center text-white font-medium py-2.5 px-4 rounded-xl shadow-[0_4px_12px_rgba(255,111,148,0.25)] transition-transform transform hover:-translate-y-0.5" style="background-color: #FF6F94;">
+                                🛒 Añadir al carrito
+                            </a>
+
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <div class="mt-4 pt-4 border-t border-gray-100">
+                                    <button onclick="borrarFlor(event, {{ flor.id }})" class="w-full text-center text-red-600 hover:text-white hover:bg-red-500 font-medium py-2 rounded-lg text-sm transition-colors border border-red-200 hover:border-red-500">
+                                        ❌ Borrar Flor
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
                     </div>
-                {% endif %}
+                </div>
                 
-            </div>
-        {% else %}
-            <p>No hay flores en el catálogo en este momento.</p>
-        {% endfor %}
+            {% else %}
+                <div class="col-span-full bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm">
+                    <span class="text-5xl mb-4 block">🥀</span>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Catálogo vacío</h3>
+                    <p class="text-gray-500">No hay flores en el catálogo en este momento.</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
-    <script>
-        function borrarFlor(event, id) {
-            event.preventDefault(); 
+    <div class="hidden lg:flex lg:w-1/4 bg-white border border-gray-100 shadow-sm p-6 rounded-2xl sticky top-8 flex-col h-auto max-h-[calc(100vh-6rem)]">
+        
+        <div class="border-b border-gray-100 pb-4 mb-4">
+            <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                <span>🛒</span> Resumen de compra
+            </h2>
+        </div>
+
+        <div class="flex-1 overflow-y-auto pr-4 custom-scrollbar space-y-3">
+            {% if carrito is defined and carrito|length > 0 %}
+                {% for item in carrito %}
+                    <div class="flex justify-between items-center text-sm group">
+                        <div class="flex items-center gap-2 truncate pr-2">
+                            <span class="font-bold" style="color: #B6DA8F;">{{ item.cantidad }}x</span>
+                            <span class="text-gray-700 truncate">{{ item.flor.name }}</span>
+                        </div>
+                        <div class="flex items-center gap-3 mr-1">
+                            <span class="text-gray-800 font-medium whitespace-nowrap">{{ (item.flor.price * item.cantidad)|number_format(2, ',', '.') }} €</span>
+                            <a href="{{ path('app_cart_remove', {'id': item.flor.id}) }}" class="text-gray-300 hover:text-red-500 transition-colors text-xl leading-none font-bold" title="Eliminar">
+                                &times;
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-sm text-gray-400 text-center py-4">Tu carrito está vacío.</p>
+            {% endif %}
+        </div>
+
+        <div class="border-t border-gray-100 pt-4 mt-4">
+            <div class="flex justify-between text-base font-bold text-gray-800 mb-6">
+                <span>Total</span>
+                <span>{{ totalCart|default(0)|number_format(2, ',', '.') }} €</span>
+            </div>
             
-            if (confirm('¿Seguro que quieres borrar esta flor definitivamente?')) {
-                
-                fetch('/admin/flor/borrar/' + id, {
-                    method: 'DELETE'
-                })
-                .then(response => response.json()) // Leemos la respuesta de Symfony
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById('flor-' + id).remove();
-                    } else {
-                        alert('Hubo un error al borrar la flor.');
-                    }
-                });
-            }
+            <a href="{{ path('app_cart_index') }}" class="block w-full text-center text-white text-sm font-medium py-3 px-4 rounded-xl shadow-sm transition-transform transform hover:-translate-y-0.5" style="background-color: #FF6F94;">
+                Tramitar Pedido
+            </a>
+        </div>
+    </div>
+
+    <div class="lg:hidden fixed bottom-6 right-6 z-50">
+        <a href="{{ path('app_cart_index') }}" class="shadow-[0_8px_20px_rgba(255,111,148,0.4)] text-white rounded-full p-4 flex items-center gap-2 font-bold transition-transform transform hover:scale-105" style="background-color: #FF6F94;">
+            <span class="text-xl">🛒</span> 
+            <span class="bg-white text-sm px-2 py-0.5 rounded-full font-bold" style="color: #FF6F94;">
+                {{ totalItems|default('0') }}
+            </span>
+        </a>
+    </div>
+
+</div>
+
+<script>
+    function borrarFlor(event, id) {
+        event.preventDefault(); 
+        
+        if (confirm('¿Seguro que quieres borrar esta flor definitivamente?')) {
+            fetch('/admin/flor/borrar/' + id, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const card = document.getElementById('flor-' + id);
+                    card.style.opacity = '0';
+                    setTimeout(() => card.remove(), 300);
+                } else {
+                    alert('Hubo un error al borrar la flor.');
+                }
+            });
         }
-    </script>
+    }
+</script>
 {% endblock %}

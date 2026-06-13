@@ -16,16 +16,16 @@ class CartService
         $this->flowerRepository = $flowerRepository;
     }
 
-    public function add(int $id): void
+    public function add(int $id, int $cantidad = 1): void
     {
         $session = $this->requestStack->getSession();
         
         $carrito = $session->get('carrito', []);
 
         if (!empty($carrito[$id])) {
-            $carrito[$id]++;
+            $carrito[$id] += $cantidad;
         } else {
-            $carrito[$id] = 1;
+            $carrito[$id] = $cantidad;
         }
 
         $session->set('carrito', $carrito);
