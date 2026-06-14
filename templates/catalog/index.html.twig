@@ -5,11 +5,37 @@
 {% block body %}
 <div class="flex flex-col lg:flex-row gap-8 items-start relative">
     
-    <div class="w-full lg:w-3/4">
+    <div class="w-full lg:w-3/4 bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100">
         
         <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
             <h1 class="text-4xl tracking-wide" style="color: #FF6F94; font-family: 'Great Vibes', cursive;">Catálogo de Flores</h1>
-            
+
+            <form method="GET" action="{{ path('app_catalog') }}" class="mb-8 flex flex-col md:flex-row gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                <div class="flex-1 relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
+                    <input type="text" name="q" value="{{ searchTerm }}" placeholder="Buscar flor por nombre..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#FF6F94] focus:ring-1 focus:ring-[#FF6F94] text-sm">
+                </div>
+                
+                <div class="w-full md:w-64">
+                    <select name="price" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#FF6F94] focus:ring-1 focus:ring-[#FF6F94] text-sm bg-white text-gray-700">
+                        <option value="">Cualquier precio</option>
+                        <option value="under_3" {% if priceFilter == 'under_3' %}selected{% endif %}>Menos de 3,00 €</option>
+                        <option value="3_to_5" {% if priceFilter == '3_to_5' %}selected{% endif %}>Entre 3,00 € y 5,00 €</option>
+                        <option value="over_5" {% if priceFilter == 'over_5' %}selected{% endif %}>Más de 5,00 €</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="px-6 py-3 bg-gray-800 text-white font-medium text-sm rounded-xl hover:bg-gray-700 transition-colors">
+                    Buscar
+                </button>
+                
+                {% if searchTerm or priceFilter %}
+                    <a href="{{ path('app_catalog') }}" class="px-6 py-3 bg-white text-gray-600 border border-gray-200 font-medium text-sm rounded-xl hover:bg-gray-50 transition-colors text-center">
+                        Limpiar
+                    </a>
+                {% endif %}
+            </form>
+
             {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('app_admin') }}" class="px-5 py-2.5 rounded-lg text-slate-800 font-bold text-sm shadow-sm transition-transform transform hover:-translate-y-0.5 flex items-center gap-2" style="background-color: #B6DA8F;">
                     <span>➕</span> Añadir nueva flor

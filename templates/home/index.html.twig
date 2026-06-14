@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lycoris Radiata - Diseños Florales a Medida{% endblock %}
+
+{% block body %}
+<div class="w-full mb-16">
+
+    <div class="relative bg-[#FF6F94]/5 rounded-b-[3rem] overflow-hidden mb-16 border-b border-[#FF6F94]/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center relative z-10">
+            <h1 class="text-5xl md:text-7xl mb-6 text-gray-800" style="color: #FF6F94; font-family: 'Great Vibes', cursive;">
+                Flores que hablan por ti
+            </h1>
+            <p class="mt-4 text-lg md:text-2xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
+                No hacemos dos ramos iguales, porque no hay dos historias iguales. 
+                Cuéntanos qué quieres transmitir y diseñaremos un arreglo floral completamente a medida para ti.
+            </p>
+            <div class="mt-12 flex justify-center gap-4">
+                <a href="{{ path('app_catalog') }}" class="px-8 py-4 bg-[#FF6F94] text-white rounded-full font-bold text-lg shadow-[0_8px_20px_rgba(255,111,148,0.4)] transition-transform transform hover:-translate-y-1">
+                    Descubre el Catálogo
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-gray-100 pt-16">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div>
+                <div class="text-4xl mb-4">💬</div>
+                <h3 class="font-bold text-gray-800 mb-2">Sencillo</h3>
+                <p class="text-gray-500 text-sm">Pide tus flores facilmente sin complicaciones</p>
+            </div>
+            <div>
+                <div class="text-4xl mb-4">🌿</div>
+                <h3 class="font-bold text-gray-800 mb-2">Flores Frescas</h3>
+                <p class="text-gray-500 text-sm">Seleccionadas cuidadosamente cada mañana en el mercado local.</p>
+            </div>
+            <div>
+                <div class="text-4xl mb-4">💝</div>
+                <h3 class="font-bold text-gray-800 mb-2">Diseño Artesanal</h3>
+                <p class="text-gray-500 text-sm">Cada encargo es único, creado desde cero y montado a mano con mimo.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

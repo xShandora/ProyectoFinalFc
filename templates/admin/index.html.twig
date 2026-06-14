@@ -1,18 +1,76 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Panel de Administración{% endblock %}
+{% block title %}Añadir Flor - Lycoris Radiata{% endblock %}
 
 {% block body %}
-    <h1>Panel de Administración</h1>
-    <h2>Añadir una nueva flor al catálogo</h2>
+<div class="max-w-2xl mx-auto px-4 py-12">
+    
+    <div class="mb-8 flex items-center justify-between">
+        <h1 class="text-4xl tracking-wide text-gray-800" style="font-family: 'Great Vibes', cursive; color: #FF6F94;">
+            Añadir Nueva Flor
+        </h1>
+        <a href="{{ path('app_catalog') }}" class="text-gray-500 hover:text-gray-800 font-medium text-sm flex items-center gap-2 transition-colors">
+            <span><- Volver al catálogo</span> 
+        </a>
+    </div>
 
-    {# Aquí empieza la magia de los formularios de Symfony #}
-    {{ form_start(formulario) }}
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 md:p-10">
         
-        {# form_widget pinta automáticamente todos los <input> que definimos (nombre, precio, etc.) #}
-        {{ form_widget(formulario) }}
-        
-        <button type="submit">Guardar Flor</button>
-        
-    {{ form_end(formulario) }}
+        <style>
+            .custom-form-wrapper label {
+                display: block;
+                font-size: 0.875rem;
+                font-weight: 700;
+                color: #9ca3af;
+                margin-bottom: 0.5rem;
+                margin-top: 1.25rem;
+            }
+            .custom-form-wrapper input,
+            .custom-form-wrapper textarea,
+            .custom-form-wrapper select {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                border-radius: 0.75rem;
+                border: 1px solid #e5e7eb;
+                background-color: #f9fafb;
+                color: #4b5563;
+                font-size: 0.875rem;
+                outline: none;
+                transition: border-color 0.2s, background-color 0.2s;
+            }
+            .custom-form-wrapper input:focus,
+            .custom-form-wrapper textarea:focus,
+            .custom-form-wrapper select:focus {
+                border-color: #FF6F94;
+                background-color: #ffffff;
+                box-shadow: 0 0 0 1px #FF6F94;
+            }
+            .custom-form-wrapper input[type="file"] {
+                background-color: transparent;
+                border: none;
+                padding: 0;
+            }
+            .custom-form-wrapper ul {
+                color: #ef4444;
+                font-size: 0.875rem;
+                margin-top: 0.5rem;
+                list-style: none;
+                padding: 0;
+            }
+        </style>
+
+        {{ form_start(formulario, {'attr': {'class': 'custom-form-wrapper'}}) }}
+            
+            {{ form_widget(formulario) }}
+            
+            <div class="mt-10 pt-6 border-t border-gray-100 flex justify-end">
+                <button type="submit" class="px-8 py-3 bg-[#B6DA8F] text-slate-800 font-bold text-sm rounded-xl shadow-sm hover:-translate-y-0.5 transition-transform flex items-center gap-2">
+                    <span>💾</span> Guardar Flor en el Catálogo
+                </button>
+            </div>
+            
+        {{ form_end(formulario) }}
+    </div>
+
+</div>
 {% endblock %}
