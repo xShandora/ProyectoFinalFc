@@ -28,7 +28,7 @@
 
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="my-2 border-t border-gray-100"></div>
-                        <a href="#" class="px-4 py-3 rounded-xl text-purple-600 hover:bg-purple-50 font-medium flex items-center gap-3 transition-colors">
+                        <a href="{{ path('app_profile_admin_orders') }}" class="px-4 py-3 rounded-xl text-purple-600 hover:bg-purple-50 font-medium flex items-center gap-3 transition-colors">
                             <span>👑</span> Gestión Admin
                         </a>
                     {% endif %}
@@ -65,7 +65,14 @@
                                         <td class="py-4 font-bold text-gray-800">{{ pedido.reference }}</td>
                                         <td class="py-4">{{ pedido.createdAt|date('d/m/Y H:i') }}</td>
                                         <td class="py-4">
-                                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700">
+                                            {% set colorClass = 'bg-gray-100 text-gray-700' %}
+                                            {% if pedido.status == 'PENDIENTE' %} {% set colorClass = 'bg-yellow-100 text-yellow-700' %}
+                                            {% elseif pedido.status == 'ENVIADO' %} {% set colorClass = 'bg-blue-100 text-blue-700' %}
+                                            {% elseif pedido.status == 'ENTREGADO' %} {% set colorClass = 'bg-green-100 text-green-700' %}
+                                            {% elseif pedido.status == 'CANCELADO' %} {% set colorClass = 'bg-red-100 text-red-700' %}
+                                            {% endif %}
+                                            
+                                            <span class="px-3 py-1.5 rounded-full text-xs font-bold {{ colorClass }}">
                                                 {{ pedido.status }}
                                             </span>
                                         </td>

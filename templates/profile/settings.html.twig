@@ -30,7 +30,7 @@
 
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="my-2 border-t border-gray-100"></div>
-                        <a href="#" class="px-4 py-3 rounded-xl text-purple-600 hover:bg-purple-50 font-medium flex items-center gap-3 transition-colors">
+                        <a href="{{ path('app_profile_admin_orders') }}" class="px-4 py-3 rounded-xl text-purple-600 hover:bg-purple-50 font-medium flex items-center gap-3 transition-colors">
                             <span>👑</span> Gestión Admin
                         </a>
                     {% endif %}
